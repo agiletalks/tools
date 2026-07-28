@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A->A+ 既有優質數位服務海報 | 國泰證券</title>
+  <style>
+    /* -------------------------------------------------------------
+       國泰證券企業色 & 設計系統 (Cathay Brand Design System)
+       A->A+ 服務評選主題
+       ------------------------------------------------------------- */
+    :root {
+      --cathay-green: #008254;
+      --cathay-green-dark: #004d32;
+      --cathay-yellow: #ffd100;
+      --cathay-yellow-hover: #e6bc00;
+      --bg-dark: #001f14;
+      --surface-dark: rgba(255, 255, 255, 0.04);
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --text-white: #ffffff;
+      --text-muted: #a0b2ac;
+      --shadow-glow: 0 0 20px rgba(0, 130, 84, 0.2);
+      --shadow-gold-glow: 0 0 25px rgba(255, 209, 0, 0.2);
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 背景裝飾 */
+    .bg-glow-1 {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(0, 130, 84, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      bottom: -10%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(255, 209, 0, 0.06) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* 海報主外框 */
+    .poster-card {
+      width: 100%;
+      max-width: 1280px;
+      background: linear-gradient(135deg, #002d1d 0%, #00150d 100%);
+      border: 2px solid var(--cathay-green);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
+      padding: 50px;
+    }
+
+    /* 海報頁首 */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--surface-border);
+      padding-bottom: 30px;
+      margin-bottom: 35px;
+    }
+
+    .header-left {
+      flex: 1;
+    }
+
+    .brand-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .brand-logo-circle {
+      width: 24px;
+      height: 24px;
+      background-color: var(--cathay-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cathay-green);
+      display: inline-block;
+      position: relative;
+    }
+    
+    .brand-logo-circle::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--cathay-yellow);
+      border-radius: 50%;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+    }
+
+    .poster-title-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .poster-title {
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--cathay-yellow);
+      letter-spacing: 2px;
+      line-height: 1.1;
+      text-shadow: var(--shadow-gold-glow);
+    }
+
+    .poster-subtitle {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-white);
+      border-left: 4px solid var(--cathay-green);
+      padding-left: 16px;
+      margin-left: 4px;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* 主架構分左右欄：左側 Top3 頒獎台，右側剩餘排名 */
+    .content-body {
+      display: flex;
+      gap: 40px;
+    }
+
+    .left-section {
+      width: 42%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .right-section {
+      width: 58%;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--cathay-yellow);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Top 3 卡片樣式 */
+    .top-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid var(--surface-border);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s;
+    }
+
+    .top-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .top-card.gold { border-color: #ffd100; background: linear-gradient(135deg, rgba(255,209,0,0.08) 0%, rgba(0,0,0,0) 100%); }
+    .top-card.silver { border-color: #c0c0c0; background: linear-gradient(135deg, rgba(192,192,192,0.08) 0%, rgba(0,0,0,0) 100%); }
+    .top-card.bronze { border-color: #cd7f32; background: linear-gradient(135deg, rgba(205,127,50,0.08) 0%, rgba(0,0,0,0) 100%); }
+
+    .top-medal {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--bg-dark);
+      flex-shrink: 0;
+    }
+
+    .top-card.gold .top-medal { background-color: #ffd100; box-shadow: 0 0 15px rgba(255,209,0,0.5); }
+    .top-card.silver .top-medal { background-color: #e0e0e0; box-shrink: 0; box-shadow: 0 0 15px rgba(224,224,224,0.4); }
+    .top-card.bronze .top-medal { background-color: #cd7f32; box-shadow: 0 0 15px rgba(205,127,50,0.4); }
+
+    .top-info {
+      flex: 1;
+    }
+
+    .top-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 6px;
+    }
+
+    .top-votes {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--cathay-yellow);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .top-votes span {
+      font-size: 24px;
+    }
+
+    .top-card.silver .top-votes { color: #e0e0e0; }
+    .top-card.bronze .top-votes { color: #e59344; }
+
+    /* 4-19 排名格狀區 */
+    .grid-section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .grid-card {
+      background: var(--surface-dark);
+      border: 1px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s;
+    }
+
+    .grid-card:hover {
+      background: rgba(0, 130, 84, 0.08);
+      border-color: var(--cathay-green);
+      transform: translateX(4px);
+    }
+
+    .grid-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .rank-num {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background-color: rgba(255,255,255,0.06);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: monospace;
+    }
+
+    .grid-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-white);
+    }
+
+    .grid-right {
+      z-index: 5;
+      flex-shrink: 0;
+    }
+
+    .vote-badge {
+      background-color: var(--cathay-green-dark);
+      color: var(--text-white);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid var(--cathay-green);
+    }
+
+    .vote-badge.zero {
+      background-color: transparent;
+      border-color: var(--surface-border);
+      color: var(--text-muted);
+    }
+
+    /* 卡片背景投票比例進度條 */
+    .progress-bg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: rgba(0, 130, 84, 0.05);
+      z-index: 1;
+      pointer-events: none;
+      transition: width 0.5s ease-out;
+    }
+
+    /* 頂部控制面板 */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .btn {
+      background-color: var(--cathay-green);
+      color: var(--text-white);
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #009963;
+      transform: translateY(-2px);
+    }
+
+    .btn-yellow {
+      background-color: var(--cathay-yellow);
+      color: var(--bg-dark);
+    }
+
+    .btn-yellow:hover {
+      background-color: var(--cathay-yellow-hover);
+    }
+
+    /* -------------------------------------------------------------
+       響應式設計 (Responsive Design)
+       ------------------------------------------------------------- */
+    @media (max-width: 1024px) {
+      .content-body {
+        flex-direction: column;
+        gap: 30px;
+      }
+      .left-section, .right-section {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .poster-card {
+        padding: 25px;
+      }
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .header-right {
+        text-align: left;
+      }
+      .poster-title {
+        font-size: 40px;
+      }
+      .poster-subtitle {
+        font-size: 24px;
+        margin-left: 0;
+        margin-top: 10px;
+        border-left: none;
+        border-top: 4px solid var(--cathay-green);
+        padding-left: 0;
+        padding-top: 8px;
+        display: block;
+      }
+      .grid-section {
+        grid-template-columns: 1fr;
+      }
+      .controls {
+        position: static;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       列印樣式最佳化 (@media print)
+       ------------------------------------------------------------- */
+    @media print {
+      body {
+        background-color: white !important;
+        color: black !important;
+        padding: 0 !important;
+      }
+
+      .bg-glow-1, .bg-glow-2, .controls {
+        display: none !important;
+      }
+
+      .poster-card {
+        border: none !important;
+        box-shadow: none !important;
+        background: white !important;
+        color: black !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+      }
+
+      header {
+        border-bottom-color: black !important;
+      }
+
+      .poster-title {
+        color: #008254 !important;
+        text-shadow: none !important;
+      }
+
+      .poster-subtitle {
+        color: black !important;
+        border-left-color: #008254 !important;
+      }
+
+      .section-title {
+        color: #008254 !important;
+      }
+
+      .top-card {
+        background: #fdfdfd !important;
+        border: 2px solid #ddd !important;
+        color: black !important;
+        box-shadow: none !important;
+      }
+      
+      .top-card.gold { border-color: #ffd100 !important; }
+      .top-card.silver { border-color: #c0c0c0 !important; }
+      .top-card.bronze { border-color: #cd7f32 !important; }
+
+      .top-title {
+        color: black !important;
+      }
+
+      .top-votes {
+        color: #008254 !important;
+      }
+
+      .grid-card {
+        background: #fafafa !important;
+        border: 1px solid #ddd !important;
+        color: black !important;
+        page-break-inside: avoid;
+      }
+
+      .grid-title {
+        color: black !important;
+      }
+
+      .rank-num {
+        background-color: #eee !important;
+        color: #555 !important;
+      }
+
+      .vote-badge {
+        background-color: white !important;
+        border-color: #008254 !important;
+        color: #008254 !important;
+      }
+
+      .vote-badge.zero {
+        border-color: #ddd !important;
+        color: #999 !important;
+      }
+
+      .progress-bg {
+        background-color: rgba(0, 130, 84, 0.03) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 背景裝飾物 -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- 頂部控制面板 -->
+  <div class="controls">
+    <button class="btn btn-yellow" onclick="window.print()">🖨️ 列印海報 / 另存 PDF</button>
+  </div>
+
+  <!-- 海報主卡片 -->
+  <div class="poster-card">
+    
+    <!-- 頁首 -->
+    <header>
+      <div class="header-left">
+        <div class="brand-badge">
+          <span class="brand-logo-circle"></span>
+          <span class="brand-text">國泰證券 Cathay Securities</span>
+        </div>
+        <div class="poster-title-group">
+          <div class="poster-title">A ➔ A+</div>
+          <div class="poster-subtitle">既有的優質數位服務</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div>AI 智能客服導入工作坊評選海報</div>
+        <div style="margin-top: 4px;">本機票選結果統計 (總計 82 票)</div>
+      </div>
+    </header>
+
+    <!-- 內容本體 -->
+    <div class="content-body">
+      
+      <!-- 左側：Top 3 高票數功能 -->
+      <div class="left-section">
+        <h2 class="section-title">🏆 數位服務人氣王 (TOP 3)</h2>
+        
+        <!-- 🥇 金獎 (定期定額) -->
+        <div class="top-card gold">
+          <div class="progress-bg" style="width: 100%;"></div>
+          <div class="top-medal">1</div>
+          <div class="top-info" style="z-index: 5;">
+            <div class="top-title">定期定額</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">（智慧加減、股息再投資、小數點）</div>
+            <div class="top-votes"><span>16</span> 票</div>
+          </div>
+        </div>
+
+        <!-- 🥈 銀獎 (線上調額) -->
+        <div class="top-card silver">
+          <div class="progress-bg" style="width: 87.5%;"></div>
+          <div class="top-medal">2</div>
+          <div class="top-info" style="z-index: 5;">
+            <div class="top-title">線上調額</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">（靈活交易額度申請）</div>
+            <div class="top-votes"><span>14</span> 票</div>
+          </div>
+        </div>
+
+        <!-- 🥉 銅獎 (線上開戶) -->
+        <div class="top-card bronze">
+          <div class="progress-bg" style="width: 81.25%;"></div>
+          <div class="top-medal">3</div>
+          <div class="top-info" style="z-index: 5;">
+            <div class="top-title">線上開戶</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">（台股複委託加開、PI 線上申請）</div>
+            <div class="top-votes"><span>13</span> 票</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 右側：第 4 到 19 名條列 grid -->
+      <div class="right-section">
+        <h2 class="section-title">📊 其他數位服務票數排名</h2>
+        
+        <div class="grid-section">
+          
+          <!-- 4 計算股利 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 56.25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">4</span>
+              <span class="grid-title">計算股利（股東會紀念品）</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">9 票</span>
+            </div>
+          </div>
+
+          <!-- 5 線上銷戶 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 50%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">5</span>
+              <span class="grid-title">線上銷戶</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">8 票</span>
+            </div>
+          </div>
+
+          <!-- 6 股票出借 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 31.25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">6</span>
+              <span class="grid-title">股票出借</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">5 票</span>
+            </div>
+          </div>
+
+          <!-- 7 股票抽籤 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">7</span>
+              <span class="grid-title">股票抽籤</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">4 票</span>
+            </div>
+          </div>
+
+          <!-- 8 ETF IPO -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 18.75%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">8</span>
+              <span class="grid-title">ETF IPO</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">3 票</span>
+            </div>
+          </div>
+
+          <!-- 9 碎股投資 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 12.5%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">9</span>
+              <span class="grid-title">碎股投資（美股）</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">2 票</span>
+            </div>
+          </div>
+
+          <!-- 9 不限用途 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 12.5%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">9</span>
+              <span class="grid-title">不限用途、撥款快</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">2 票</span>
+            </div>
+          </div>
+
+          <!-- 9 券差出借 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 12.5%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">9</span>
+              <span class="grid-title">券差出借</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">2 票</span>
+            </div>
+          </div>
+
+          <!-- 9 台外幣帳戶串接 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 12.5%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">9</span>
+              <span class="grid-title">台外幣帳戶串接交割</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">2 票</span>
+            </div>
+          </div>
+
+          <!-- 13 日股即時報價 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 6.25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">13</span>
+              <span class="grid-title">日股即時報價</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">1 票</span>
+            </div>
+          </div>
+
+          <!-- 13 預收款券 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 6.25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">13</span>
+              <span class="grid-title">預收款券</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">1 票</span>
+            </div>
+          </div>
+
+          <!-- 13 股票回撥 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 6.25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">13</span>
+              <span class="grid-title">股票回撥</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">1 票</span>
+            </div>
+          </div>
+
+          <!-- 13 小額交易 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 6.25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">13</span>
+              <span class="grid-title">小額交易</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">1 票</span>
+            </div>
+          </div>
+
+          <!-- 13 K10 元大證金 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 6.25%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">13</span>
+              <span class="grid-title">K10 元大證金</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge">1 票</span>
+            </div>
+          </div>
+
+          <!-- 18 複委託手續費很低 -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 0%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">18</span>
+              <span class="grid-title">複委託手續費很低</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge zero">0 票</span>
+            </div>
+          </div>
+
+          <!-- 18 即時入金（期貨） -->
+          <div class="grid-card">
+            <div class="progress-bg" style="width: 0%;"></div>
+            <div class="grid-left">
+              <span class="rank-num">18</span>
+              <span class="grid-title">即時入金（期貨）</span>
+            </div>
+            <div class="grid-right">
+              <span class="vote-badge zero">0 票</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOs 客戶價值海報 | 國泰證券 × 新阿發</title>
+  <style>
+    /* -------------------------------------------------------------
+       國泰證券企業色 & 設計系統 (Cathay Brand Design System)
+       ------------------------------------------------------------- */
+    :root {
+      --cathay-green: #008254;
+      --cathay-green-dark: #004d32;
+      --cathay-green-deep: #002d1d;
+      --cathay-yellow: #ffd100;
+      --cathay-yellow-hover: #e6bc00;
+      --bg-dark: #001f14;
+      --surface-dark: rgba(255, 255, 255, 0.04);
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --text-white: #ffffff;
+      --text-muted: #a0b2ac;
+      --shadow-glow: 0 0 20px rgba(0, 130, 84, 0.3);
+      --shadow-gold-glow: 0 0 25px rgba(255, 209, 0, 0.2);
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 背景炫光裝飾 */
+    .bg-glow-1 {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(0, 130, 84, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      bottom: -10%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(255, 209, 0, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* 海報主外框 */
+    .poster-card {
+      width: 100%;
+      max-width: 1280px;
+      background: linear-gradient(135deg, #002d1d 0%, #00150d 100%);
+      border: 2px solid var(--cathay-green);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+      display: flex;
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    /* 左側資訊欄 */
+    .left-col {
+      width: 38%;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--surface-border);
+      position: relative;
+      background: linear-gradient(180deg, rgba(0, 130, 84, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .brand-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .brand-logo-circle {
+      width: 24px;
+      height: 24px;
+      background-color: var(--cathay-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cathay-green);
+      display: inline-block;
+      position: relative;
+    }
+    
+    .brand-logo-circle::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--cathay-yellow);
+      border-radius: 50%;
+    }
+
+    .brand-text {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text-white);
+      text-transform: uppercase;
+    }
+
+    .title-area {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .poster-title {
+      font-size: 80px;
+      font-weight: 900;
+      color: var(--cathay-yellow);
+      letter-spacing: 4px;
+      line-height: 1;
+      margin-bottom: 24px;
+      text-shadow: var(--shadow-gold-glow);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .poster-subtitle {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-white);
+      line-height: 1.5;
+      letter-spacing: 2px;
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .poster-subtitle::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 6px;
+      background-color: var(--cathay-green);
+      border-radius: 4px;
+      box-shadow: 0 0 8px var(--cathay-green);
+    }
+
+    .poster-footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* 右側條列欄 */
+    .right-col {
+      width: 62%;
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .value-card {
+      background: var(--surface-dark);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .value-card:hover {
+      background: rgba(0, 130, 84, 0.08);
+      border-color: var(--cathay-green);
+      transform: translateX(8px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .value-num {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--cathay-yellow);
+      font-family: "Courier New", Courier, monospace;
+      width: 40px;
+      text-align: center;
+      border-bottom: 2px solid var(--cathay-yellow);
+      padding-bottom: 4px;
+    }
+
+    .value-icon {
+      font-size: 32px;
+    }
+
+    .value-info {
+      flex: 1;
+    }
+
+    .value-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .value-name-cn {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .value-name-en {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .value-desc {
+      font-size: 16px;
+      color: #d1e2dc;
+      line-height: 1.5;
+    }
+
+    /* 頂部操作按鈕 (僅網頁顯示，列印隱藏) */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .btn {
+      background-color: var(--cathay-green);
+      color: var(--text-white);
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #009963;
+      transform: translateY(-2px);
+    }
+
+    .btn-yellow {
+      background-color: var(--cathay-yellow);
+      color: var(--bg-dark);
+    }
+
+    .btn-yellow:hover {
+      background-color: var(--cathay-yellow-hover);
+    }
+
+    /* -------------------------------------------------------------
+       響應式設計 (Responsive Design)
+       ------------------------------------------------------------- */
+    @media (max-width: 1024px) {
+      .poster-card {
+        flex-direction: column;
+      }
+      .left-col {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--surface-border);
+        padding: 40px;
+      }
+      .right-col {
+        width: 100%;
+        padding: 40px;
+      }
+      .poster-title {
+        font-size: 64px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .left-col, .right-col {
+        padding: 30px 20px;
+      }
+      .poster-title {
+        font-size: 48px;
+      }
+      .poster-subtitle {
+        font-size: 24px;
+      }
+      .value-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+      }
+      .value-num {
+        border-bottom: none;
+        border-left: 3px solid var(--cathay-yellow);
+        padding-bottom: 0;
+        padding-left: 8px;
+        text-align: left;
+        width: auto;
+      }
+      .controls {
+        position: static;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       列印樣式最佳化 (@media print)
+       ------------------------------------------------------------- */
+    @media print {
+      body {
+        background-color: white !important;
+        color: black !important;
+        padding: 0 !important;
+      }
+
+      .bg-glow-1, .bg-glow-2, .controls {
+        display: none !important;
+      }
+
+      .poster-card {
+        border: none !important;
+        box-shadow: none !important;
+        background: white !important;
+        color: black !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+      }
+
+      .left-col {
+        background: #f0f5f2 !important;
+        border-right: 2px solid #008254 !important;
+        color: black !important;
+        width: 35% !important;
+        padding: 30px 20px !important;
+      }
+
+      .poster-title {
+        color: #008254 !important;
+        text-shadow: none !important;
+      }
+
+      .poster-subtitle {
+        color: black !important;
+      }
+
+      .right-col {
+        width: 65% !important;
+        padding: 30px 20px !important;
+      }
+
+      .value-card {
+        background: #fafafa !important;
+        border: 1px solid #ddd !important;
+        color: black !important;
+        page-break-inside: avoid;
+        padding: 12px 18px !important;
+      }
+
+      .value-name-cn {
+        color: black !important;
+      }
+
+      .value-desc {
+        color: #333 !important;
+      }
+
+      .value-num {
+        color: #008254 !important;
+        border-bottom-color: #008254 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 背景裝飾物 -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- 頂部控制面板 -->
+  <div class="controls">
+    <button class="btn btn-yellow" onclick="window.print()">🖨️ 列印海報 / 另存 PDF</button>
+  </div>
+
+  <!-- 海報外卡 -->
+  <div class="poster-card">
+    
+    <!-- 左側欄位：主標題與新阿發引言 -->
+    <div class="left-col">
+      <div class="brand-badge">
+        <span class="brand-logo-circle"></span>
+        <span class="brand-text">國泰證券 Cathay Securities</span>
+      </div>
+
+      <div class="title-area">
+        <div class="poster-title">DOs</div>
+        <div class="poster-subtitle">透過新阿發，<br>我們要...</div>
+      </div>
+
+      <div class="poster-footer">
+        <div>© 國泰綜合證券股份有限公司</div>
+        <div style="font-size: 12px;">AI 智能客服導入工作坊核心價值海報</div>
+      </div>
+    </div>
+
+    <!-- 右側欄位：七大價值面向清單 (依指定順序排版) -->
+    <div class="right-col">
+      
+      <!-- 01 體驗 -->
+      <div class="value-card">
+        <div class="value-num">01</div>
+        <div class="value-icon">✨</div>
+        <div class="value-info">
+          <div class="value-title-row">
+            <span class="value-name-cn">體驗</span>
+            <span class="value-name-en">Experience</span>
+          </div>
+          <div class="value-desc">讓客戶獲得自然、順暢的互動體驗。</div>
+        </div>
+      </div>
+
+      <!-- 02 效率 -->
+      <div class="value-card">
+        <div class="value-num">02</div>
+        <div class="value-icon">⚡</div>
+        <div class="value-info">
+          <div class="value-title-row">
+            <span class="value-name-cn">效率</span>
+            <span class="value-name-en">Efficiency</span>
+          </div>
+          <div class="value-desc">讓客戶更快、更省力地完成事情。</div>
+        </div>
+      </div>
+
+      <!-- 03 理解 -->
+      <div class="value-card">
+        <div class="value-num">03</div>
+        <div class="value-icon">🧭</div>
+        <div class="value-info">
+          <div class="value-title-row">
+            <span class="value-name-cn">理解</span>
+            <span class="value-name-en">Understanding</span>
+          </div>
+          <div class="value-desc">讓客戶更容易理解複雜資訊。</div>
+        </div>
+      </div>
+
+      <!-- 04 信任 -->
+      <div class="value-card">
+        <div class="value-num">04</div>
+        <div class="value-icon">🛡️</div>
+        <div class="value-info">
+          <div class="value-title-row">
+            <span class="value-name-cn">信任</span>
+            <span class="value-name-en">Trust</span>
+          </div>
+          <div class="value-desc">讓客戶更安心地相信資訊與服務。</div>
+        </div>
+      </div>
+
+      <!-- 05 關係 -->
+      <div class="value-card">
+        <div class="value-num">05</div>
+        <div class="value-icon">🤝</div>
+        <div class="value-info">
+          <div class="value-title-row">
+            <span class="value-name-cn">關係</span>
+            <span class="value-name-en">Relationship</span>
+          </div>
+          <div class="value-desc">讓客戶感受到被理解與被支持。</div>
+        </div>
+      </div>
+
+      <!-- 06 自主 -->
+      <div class="value-card">
+        <div class="value-num">06</div>
+        <div class="value-icon">🧩</div>
+        <div class="value-info">
+          <div class="value-title-row">
+            <span class="value-name-cn">自主</span>
+            <span class="value-name-en">Empowerment</span>
+          </div>
+          <div class="value-desc">讓客戶更有能力自行完成事情。</div>
+        </div>
+      </div>
+
+      <!-- 07 決策 -->
+      <div class="value-card">
+        <div class="value-num">07</div>
+        <div class="value-icon">🎯</div>
+        <div class="value-info">
+          <div class="value-title-row">
+            <span class="value-name-cn">決策</span>
+            <span class="value-name-en">Decision Support</span>
+          </div>
+          <div class="value-desc">讓客戶更容易做出有依據的判斷。</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
