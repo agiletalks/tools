@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrum 團隊敏捷狀態自評問卷</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* 增加列印模式與頁面切割設定 */
+        @media print {
+            body * {
+                visibility: hidden !important;
+            }
+            #pdf-report-modal, #pdf-report-modal * {
+                visibility: visible !important;
+            }
+            #pdf-report-modal {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                background: white !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-6 sm:p-10 text-center">
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">Scrum 團隊敏捷狀態自評表</h1>
+            <p class="text-blue-100 text-sm sm:text-base font-medium max-w-2xl mx-auto">
+                依據 Scrum 五大模組（Sprint 運作、Planning、Daily Scrum、Review、Retro）及角色與工作產物設計
+            </p>
+        </div>
+
+        <!-- Instructions Banner -->
+        <div class="p-6 sm:p-8 space-y-8">
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 sm:p-5 rounded-r-xl">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 text-blue-600 mt-0.5">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-semibold text-blue-900">📌 填寫與使用說明</h3>
+                        <p class="text-sm text-blue-800 mt-1 leading-relaxed">
+                            請團隊成員共同討論或各自填寫，針對以下 10 個核心問題，選擇最符合團隊<strong>「過去 2-3 個 Sprint 實際運作狀況」</strong>的描述選項。選項未標示分數以避免趨中選擇，請如實反映現狀，以尋求團隊持續改善的方向！
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="quiz-form" class="space-y-8">
+
+                <!-- 模組一 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                        <span class="bg-blue-600 text-white font-bold text-xs uppercase px-2.5 py-1 rounded-md">模組一</span>
+                        <h2 class="text-lg font-bold text-slate-900">The Sprint（Sprint 運作與總體目標）</h2>
+                    </div>
+
+                    <!-- Q1 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q1. 交付品質與完成標準（Definition of Done & Increment）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q1" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">沒有明確的「完成標準」，成員對工作做完與否各自表述，成果經常伴隨瑕疵或需要補救。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q1" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">有口頭上的標準，但遇到時程壓力時，品質規範往往第一個被犧牲，交付品質起伏大。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q1" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊有列出基本的完成定義（DoD），產出能符合基本要求，但較少主動檢討或提高品質標準。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q1" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊共同遵守嚴謹的 DoD，每個 Sprint 結束皆能產出真正可用、隨時可發布/交付（Potentially Releasable）的成果增量（Increment）。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q1" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">DoD 融入了高標準檢驗機制，團隊隨成熟度主動提高 DoD 標準，具備高頻率且穩定的高品質交付能力。</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q2. 目標對齊與跨職能協作（Product Goal & Cross-functional）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q2" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">成員只關注自己手上的零碎任務，不知道團隊整體的長期目標（Product Goal）是什麼，各自為政。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q2" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">知道目標存在，但工作仍按職能嚴重割裂（如各自獨立作業），接力式交接且溝通成本高。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q2" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">PO 有宣告過產品目標（Product Goal），成員能在各自範疇內配合，但主要仍依賴明確的任務分工。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q2" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊圍繞著共同的 Product Goal 高度協作，成員打破職能邊界（Cross-functional）互相支援，以團隊共同達成成果為最高原則。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q2" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊高度自我管理（Self-Managing），能根據 Product Goal 與市場/用戶反饋，自主調配資源與調整策略，極大化整體商業效益。</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模組二 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                        <span class="bg-blue-600 text-white font-bold text-xs uppercase px-2.5 py-1 rounded-md">模組二</span>
+                        <h2 class="text-lg font-bold text-slate-900">Sprint Planning（計畫會議）</h2>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q3. 目標確立與需求梳理（PO 權責 & Product Backlog）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q3" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">沒有 Planning 會議，需求隨時被插單，需求清單（Product Backlog）混亂且沒有優先順序。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q3" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">有開 Planning，但 PO 只是被動接受主管或客戶交辦，需求未經過梳理，細節不清就直接交代給團隊做。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q3" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">PO 具備排序權限，會在 Planning 前梳理好近期的需求與驗收條件（AC），但在會議中主要由 PO 單向說明需求。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q3" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">PO 獲得充分授權，能獨立決策優先順序；Planning 會議上與團隊雙向對焦，共同確定本次 Sprint 的核心目標（Sprint Goal）。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q3" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">需求切分極為精準且價值導向，PO 能以數據與市場價值說服團隊與利害關係人，極致聚焦高價值工作。</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q4. 承諾與任務拆解（Developers 權責 & Sprint Backlog）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q4" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">工作是由主管或 PO 直接指派給個人，沒有形成團隊共同認領的 Sprint Backlog。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q4" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊雖然自己估算，但往往照單全收 PO 給的所有工作，沒有評估真實產能，導致頻繁做不完。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q4" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊能根據過往產能選取需求，並將其拆解為任務，但規劃較為保守或缺乏對「如何達成 Sprint Goal」的策略討論。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q4" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊共同討論與規劃「How（如何做）」，自主將需求拆解為可執行的計畫，並集體為 Sprint Goal 與產出承諾負責。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q4" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊能以結果導向思考解決方案，靈活運用最輕量的方式達成目標，估算與規劃極度精準。</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模組三 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                        <span class="bg-blue-600 text-white font-bold text-xs uppercase px-2.5 py-1 rounded-md">模組三</span>
+                        <h2 class="text-lg font-bold text-slate-900">Daily Scrum（每日例會）</h2>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q5. 例會焦點與自組織規劃（Developers 權責 & Sprint Backlog）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q5" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">沒有每日例會，或者例會開超過 30 分鐘，變成漫無目的的技術/業務細節討論會。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q5" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">例會變相成為向主管或 SM「報告工作進度」的匯報會，看板資訊滯後，無法呈現最新狀態。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q5" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">能控制在 15 分鐘內，成員依序講述「昨日完成、今日預計、遭遇阻礙」，但彼此互動少，較像各自唸清單。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q5" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">由團隊自主召集，看板即時呈現最新狀態，會議聚焦於「我們今天如何調整計畫，以更接近 Sprint Goal」。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q5" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">例會互動極度流暢，團隊能一眼看出瓶頸，並在會中快速達成共識、自主重新配對或調整協作方式（Re-plan）。</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q6 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q6. 阻礙識別與排除（Scrum Master 權責）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q6" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">團隊遇到問題時習慣隱瞞，或不知道可以找誰協助，阻礙放任不管直到發酵成危機。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q6" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">阻礙有被提出，但 SM 或團隊沒有追蹤機制，問題常常不了了之或重複發生。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q6" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">成員能在例會提出卡關問題，SM 或相關人員會主動紀錄並在會後協助協調解決。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q6" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">SM 積極扮演僕人式領導者，建立極佳的團隊信任感，能主動識別系統性障礙並協助消除（Impediments）。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q6" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊具備高度心理安全感，成員能自主排除大部分阻礙；SM 則聚焦於協助整個組織（含跨部門）優化運作流程。</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模組四 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                        <span class="bg-blue-600 text-white font-bold text-xs uppercase px-2.5 py-1 rounded-md">模組四</span>
+                        <h2 class="text-lg font-bold text-slate-900">Sprint Review（檢討/成果展示會議）</h2>
+                    </div>
+
+                    <!-- Q7 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q7. 成果展示與實體反饋（Increment & Stakeholders）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q7" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">沒有開 Review 會議，或是僅由 PO / 主管用口頭、簡報（PPT）交代進度，沒有展示實體成果。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q7" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">有開 Review，但只在團隊內部閉門進行，沒有任何外部利害關係人（Stakeholders）或真實使用者參與。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q7" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">利害關係人有出席，團隊展示符合 DoD 的成果增量（Increment），但過程偏向單向的「發表會」，互動較少。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q7" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">Review 是一場「雙向協作工作坊」，利益相關者親自體驗或檢視實際成果，並提出真實、具建設性的反饋。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q7" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">Review 會議直接基於真實數據、用戶測試或市場反應進行討論，大家聚焦於「這個成果創造了多少價值」。</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q8 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q8. 動態調整與策略對焦（Product Backlog 變動）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q8" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">就算 Review 收集到了反饋，後續的需求清單與方向依然照舊，完全不打算修正。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q8" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">會記錄反饋，但只是隨手寫下，沒有人負責將這些意見轉化為具體的需求項目。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q8" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">PO 會根據 Review 收集到的反饋，在會後將新的需求或修改調整放入 Product Backlog 中。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q8" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">PO 在 Review 現場就能根據成果與反饋，與團隊及利害關係人共同討論並即時調整 Product Backlog 的優先順序。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q8" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">Review 成為高層策略與產品戰略對焦的核心樞紐，團隊能靈活根據市場適應性做出策略轉向或優化決策。</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模組五 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                        <span class="bg-blue-600 text-white font-bold text-xs uppercase px-2.5 py-1 rounded-md">模組五</span>
+                        <h2 class="text-lg font-bold text-slate-900">Sprint Retrospective（自省/回顧會議）</h2>
+                    </div>
+
+                    <!-- Q9 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q9. 回顧氛圍與問題檢討（Psychological Safety & SM 權責）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q9" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">沒有開 Retro，或是 Retro 演變成「檢討大會/指責大會」，成員互相甩鍋或防禦。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q9" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">大家在 Retro 中只敢講好話或無關痛癢的小事，不敢提出真正的流程瓶頸或團隊合作問題。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q9" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">SM 能引導客觀討論，成員能在安全的氛圍下，檢視人際互動、工作流程與工具使用上的不足。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q9" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊具備極高心理安全感，能誠實面對失敗並視為學習契機，SM 靈活運用多元引導框架帶動高質量對話。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q9" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊擁有極強的自律與互信，不需倚賴 SM 強力帶領，就能自發性地進行深度自我批判與改善嘗試。</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q10 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div class="font-semibold text-slate-800 text-base">Q10. 改善行動的落實（Action Items 執行力）</div>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q10" value="20" class="mt-1 text-blue-600 focus:ring-blue-500" required>
+                                <span class="ml-3 text-sm text-slate-700">Retro 討論完後列了一大堆願景，但完全沒有指派負責人或追蹤機制，下次開會早就忘光。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q10" value="40" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">每次都產出一堆改善項目，但因為平時工作太忙，執行率低於 30%。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q10" value="60" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">每次 Retro 能篩選出 1-2 項具體的改善行動，並有明確的負責人，能在下個 Sprint 陸續完成。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q10" value="80" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">團隊將選出的高優先級改善行動，直接放入下一個 Sprint 的 Sprint Backlog 中並列為優先工作，確保高執行率。</span>
+                            </label>
+                            <label class="flex items-start p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                                <input type="radio" name="q10" value="100" class="mt-1 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-3 text-sm text-slate-700">形成「實驗與持續改善」的團隊基因，改善行動能被量化追蹤，持續推動團隊邁向高績效。</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="validation-error" class="hidden p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-sm font-medium flex items-center space-x-2">
+                    <svg class="w-5 h-5 flex-shrink-0 text-rose-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>請先完成所有 10 道題目的選擇再進行計算喔！</span>
+                </div>
+
+                <button type="button" onclick="calculateScore()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                    計算自評總分與狀態診斷
+                </button>
+            </form>
+
+            <div id="result-card" class="hidden bg-slate-900 text-white rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl transition-all duration-500">
+                <div class="text-center space-y-2">
+                    <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">評估結果</div>
+                    <div class="text-4xl sm:text-5xl font-extrabold text-blue-400">
+                        <span id="total-score">0</span> <span class="text-xl font-normal text-slate-300">/ 100 分</span>
+                    </div>
+                    <div class="text-xs text-slate-400 bg-slate-800/60 inline-block px-3.5 py-1.5 rounded-full border border-slate-700/60">
+                        🧮 計算公式：10 題總和 (<span id="raw-total-score" class="text-blue-300 font-semibold">0</span> 分) ÷ 10 題 ＝ 平均 <span id="calc-formula-score" class="text-blue-300 font-semibold">0</span> 分
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <span id="status-badge" class="inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-blue-500 text-white shadow-md">
+                        計算中...
+                    </span>
+                </div>
+
+                <!-- 雷達圖區塊 -->
+                <div class="bg-slate-800/80 p-4 sm:p-6 rounded-xl border border-slate-700 max-w-lg mx-auto">
+                    <h3 class="text-center font-bold text-blue-300 mb-3 text-sm sm:text-base">📊 五大模組成熟度分析雷達圖</h3>
+                    <div class="relative w-full aspect-square max-w-xs sm:max-w-sm mx-auto">
+                        <canvas id="radar-chart"></canvas>
+                    </div>
+                </div>
+
+                <div id="diagnosis-text" class="text-slate-300 text-sm sm:text-base leading-relaxed bg-slate-800/80 p-5 rounded-xl border border-slate-700">
+                    <!-- Dynamic text -->
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-blue-300 flex items-center space-x-2">
+                        <span>💡 下一步建議行動：</span>
+                    </h3>
+                    <ul id="action-list" class="space-y-2 text-sm text-slate-200 list-disc list-inside bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+                        <!-- Dynamic items -->
+                    </ul>
+                </div>
+
+                <div class="pt-4 border-t border-slate-700/60 flex justify-center">
+                    <button type="button" onclick="downloadPDF()" id="pdf-btn" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span>預覽與下載完整 PDF 評估報告</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let radarChartInstance = null;
+
+        function calculateScore() {
+            const form = document.getElementById('quiz-form');
+            const formData = new FormData(form);
+            const errorBox = document.getElementById('validation-error');
+            let totalScore = 0;
+            let answeredCount = 0;
+
+            const moduleScores = { m1: 0, m2: 0, m3: 0, m4: 0, m5: 0 };
+
+            for (let i = 1; i <= 10; i++) {
+                const val = formData.get('q' + i);
+                if (val) {
+                    const numVal = parseInt(val);
+                    totalScore += numVal;
+                    answeredCount++;
+
+                    // 分歸各個模組
+                    if (i === 1 || i === 2) moduleScores.m1 += numVal;
+                    else if (i === 3 || i === 4) moduleScores.m2 += numVal;
+                    else if (i === 5 || i === 6) moduleScores.m3 += numVal;
+                    else if (i === 7 || i === 8) moduleScores.m4 += numVal;
+                    else if (i === 9 || i === 10) moduleScores.m5 += numVal;
+                }
+            }
+
+            if (answeredCount < 10) {
+                errorBox.classList.remove('hidden');
+                errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            } else {
+                errorBox.classList.add('hidden');
+            }
+
+            const normalizedScore = Math.round(totalScore / 10);
+
+            const m1Avg = Math.round(moduleScores.m1 / 2);
+            const m2Avg = Math.round(moduleScores.m2 / 2);
+            const m3Avg = Math.round(moduleScores.m3 / 2);
+            const m4Avg = Math.round(moduleScores.m4 / 2);
+            const m5Avg = Math.round(moduleScores.m5 / 2);
+            
+            document.getElementById('total-score').innerText = normalizedScore;
+            document.getElementById('raw-total-score').innerText = totalScore;
+            document.getElementById('calc-formula-score').innerText = normalizedScore;
+            const resultCard = document.getElementById('result-card');
+            const statusBadge = document.getElementById('status-badge');
+            const diagnosisText = document.getElementById('diagnosis-text');
+            const actionList = document.getElementById('action-list');
+
+            actionList.innerHTML = '';
+
+            updateRadarChart([m1Avg, m2Avg, m3Avg, m4Avg, m5Avg]);
+
+            if (normalizedScore <= 40) {
+                statusBadge.innerText = '形式/混亂期 (Zombie/Chaotic Scrum)';
+                statusBadge.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-rose-600 text-white shadow-md';
+                diagnosisText.innerText = '團隊目前處於「形式上記錄，但流程斷裂」的階段。雖然有舉辦某些會議，但核心概念未立，容易讓成員覺得「會議變多但效率沒變高」。';
+                actionList.innerHTML = `
+                    <li><strong>建立心理安全感：</strong>在 Retro 中專注於「找出一個」可以被執行的最小改善行動（Small Win），避免互相指責。</li>
+                    <li><strong>明確確立目標：</strong>確保每一個 Sprint 都有一個清楚的 Sprint Goal，而不只是任務清單。</li>
+                    <li><strong>控管會議時間：</strong>將每日例會（Daily Scrum）強制限制在 15 分鐘內，且只聚焦於目標進度與阻礙。</li>
+                `;
+            } else if (normalizedScore <= 65) {
+                statusBadge.innerText = '過渡/養成期 (Developing Scrum)';
+                statusBadge.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-amber-500 text-slate-900 shadow-md';
+                diagnosisText.innerText = '團隊剛跨過基本門檻（60分左右）！流程已建立且會議都能順暢運作，但目前多為被動遵循，主動性與自組織能力仍有提升空間。';
+                actionList.innerHTML = `
+                    <li><strong>深化 PO 授權：</strong>賦予 PO 真正的需求排序與策略決策權，避免頻繁被外部插單。</li>
+                    <li><strong>把改善行動放入 Backlog：</strong>將 Retrospective 選出的改善事項，直接排入下個 Sprint 的工作項目中。</li>
+                    <li><strong>強化雙向溝通：</strong>在 Sprint Review 時邀請更多真實利害關係人，收集最直接的體驗反饋。</li>
+                `;
+            } else if (normalizedScore <= 85) {
+                statusBadge.innerText = '成熟/自組織期 (Healthy Scrum)';
+                statusBadge.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-emerald-500 text-white shadow-md';
+                diagnosisText.innerText = '恭喜！團隊已建立起穩定且成熟的 Scrum 節奏。角色權責清晰，具備相當程度的自主管理能力，能有預測性地持續交付成品。';
+                actionList.innerHTML = `
+                    <li><strong>調高完成定義（DoD）：</strong>隨著團隊成熟，可逐步調高 DoD 的標準（如加入高標準自動化檢測或更嚴謹的驗收）。</li>
+                    <li><strong>優化需求切分：</strong>嘗試將需求切得更小、更高價值（Slicing），提升團隊流暢度（Flow）。</li>
+                    <li><strong>關注商業結果（Outcome）：</strong>從「順利完成任務」跨越到「用數據評估成果是否真正為客戶創造價值」。</li>
+                `;
+            } else {
+                statusBadge.innerText = '卓越/價值驅動期 (High-Performing Scrum)';
+                statusBadge.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-cyan-500 text-white shadow-md';
+                diagnosisText.innerText = '團隊已將敏捷精神完全內化，達到「無招勝有招」的極致狀態！能根據數據與市場快速反應，團隊高度自我管理且極具凝聚力。';
+                actionList.innerHTML = `
+                    <li><strong>發揮組織影響力：</strong>分享團隊經驗，協助組織內其他團隊進行敏捷轉型或經驗傳承。</li>
+                    <li><strong>推動商業創新：</strong>PO 與團隊進行更深度的使用者研究與商業模型實驗（A/B Testing 等）。</li>
+                    <li><strong>優化系統性瓶頸：</strong>協助組織優化跨部門依賴關係與預算編列機制，消除整體系統性延遲。</li>
+                `;
+            }
+
+            resultCard.classList.remove('hidden');
+            resultCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadPDF() {
+            const btn = document.getElementById('pdf-btn');
+            const originalBtnHTML = btn.innerHTML;
+            const rawTotalScore = document.getElementById('raw-total-score').innerText;
+            btn.disabled = true;
+            btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>PDF 報告載入中...</span>`;
+
+            // Capture radar chart image Data URL
+            const chartCanvas = document.getElementById('radar-chart');
+            const chartImgData = chartCanvas ? chartCanvas.toDataURL('image/png') : '';
+
+            // Questions metadata
+            const questions = [
+                { id: 'q1', title: 'Q1. 交付品質與完成標準（Definition of Done & Increment）' },
+                { id: 'q2', title: 'Q2. 目標對齊與跨職能協作（Product Goal & Cross-functional）' },
+                { id: 'q3', title: 'Q3. 目標確立與需求梳理（PO 權責 & Product Backlog）' },
+                { id: 'q4', title: 'Q4. 承諾與任務拆解（Developers 權責 & Sprint Backlog）' },
+                { id: 'q5', title: 'Q5. 例會焦點與自組織規劃（Developers 權責 & Sprint Backlog）' },
+                { id: 'q6', title: 'Q6. 阻礙識別與排除（Scrum Master 權責）' },
+                { id: 'q7', title: 'Q7. 成果展示與實體反饋（Increment & Stakeholders）' },
+                { id: 'q8', title: 'Q8. 動態調整與策略對焦（Product Backlog 變動）' },
+                { id: 'q9', title: 'Q9. 回顧氛圍與問題檢討（Psychological Safety & SM 權責）' },
+                { id: 'q10', title: 'Q10. 改善行動的落實（Action Items 執行力）' }
+            ];
+
+            let answersHTML = '';
+            questions.forEach((q) => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                let answerText = '未作答';
+                if (selected) {
+                    const label = selected.closest('label');
+                    answerText = label ? label.querySelector('span').innerText : '';
+                }
+                answersHTML += `
+                    <div style="margin-bottom: 12px; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #f8fafc; page-break-inside: avoid;">
+                        <div style="font-weight: bold; font-size: 12px; color: #1e293b; margin-bottom: 4px;">${q.title}</div>
+                        <div style="font-size: 11px; color: #334155; line-height: 1.5;"><strong>團隊現狀描述：</strong> ${answerText}</div>
+                    </div>
+                `;
+            });
+
+            const totalScore = document.getElementById('total-score').innerText;
+            const statusBadgeText = document.getElementById('status-badge').innerText;
+            const diagnosisText = document.getElementById('diagnosis-text').innerText;
+            const actionListHTML = document.getElementById('action-list').innerHTML;
+            const today = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' });
+
+            // Create or get modal
+            let modal = document.getElementById('pdf-report-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'pdf-report-modal';
+                document.body.appendChild(modal);
+            }
+
+            modal.className = 'fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full my-6 overflow-hidden text-slate-800 flex flex-col max-h-[92vh]">
+                    <div class="p-4 bg-slate-100 border-b border-slate-200 flex justify-between items-center no-print">
+                        <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center space-x-2">
+                            <span>📄 Scrum 敏捷評估報告預覽</span>
+                        </h3>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="window.print()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow transition-colors flex items-center space-x-1">
+                                <span>🖨️ 列印 / 存為 PDF</span>
+                            </button>
+                            <button onclick="closePDFModal()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-lg transition-colors">
+                                關閉
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 overflow-y-auto flex-1 bg-white" id="pdf-report-content" style="font-family: 'Inter', -apple-system, sans-serif; color: #0f172a;">
+                        <div style="border-bottom: 3px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px; overflow: hidden;">
+                            <div style="float: left;">
+                                <h1 style="font-size: 20px; font-weight: 800; color: #1e3a8a; margin: 0;">Scrum 團隊敏捷狀態自評報告</h1>
+                                <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0;">涵蓋 5 大核心模組、角色權責與工作產物評估</p>
+                            </div>
+                            <div style="float: right; font-size: 11px; color: #64748b; font-weight: bold; margin-top: 10px;">評估日期：${today}</div>
+                        </div>
+
+                        <div style="margin-bottom: 20px; background-color: #f1f5f9; padding: 16px; border-radius: 12px; overflow: hidden; page-break-inside: avoid;">
+                            <div style="float: left; width: 130px; text-align: center; border-right: 2px solid #cbd5e1; padding-right: 12px;">
+                                <div style="font-size: 11px; color: #64748b; font-weight: 600;">綜合評分</div>
+                                <div style="font-size: 30px; font-weight: 800; color: #2563eb;">${totalScore} <span style="font-size: 12px; color: #64748b; font-weight: normal;">/ 100</span></div>
+                                <div style="font-size: 10px; color: #64748b; margin-top: 2px;">(總分 ${rawTotalScore} ÷ 10 題)</div>
+                            </div>
+                            <div style="margin-left: 155px;">
+                                <div style="font-size: 11px; color: #64748b; font-weight: 600;">成熟度階段</div>
+                                <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">${statusBadgeText}</div>
+                                <div style="font-size: 11px; color: #334155; line-height: 1.5;">${diagnosisText}</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px; text-align: center; page-break-inside: avoid;">
+                            <h3 style="font-size: 13px; font-weight: bold; color: #1e3a8a; margin-bottom: 10px;">📊 五大模組成熟度分析雷達圖</h3>
+                            <img src="${chartImgData}" style="max-width: 280px; height: auto; margin: 0 auto; display: block;" />
+                        </div>
+
+                        <div style="margin-bottom: 20px; background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 16px; border-radius: 0 8px 8px 0; page-break-inside: avoid;">
+                            <h3 style="font-size: 13px; font-weight: bold; color: #1e3a8a; margin: 0 0 8px 0;">💡 下一步建議行動 (Action Items)</h3>
+                            <ul style="font-size: 11px; color: #1e293b; margin: 0; padding-left: 18px; line-height: 1.7;">
+                                ${actionListHTML}
+                            </ul>
+                        </div>
+
+                        <div style="page-break-before: always; padding-top: 10px;">
+                            <h3 style="font-size: 14px; font-weight: bold; color: #1e3a8a; margin-bottom: 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">📋 各題評估選擇明細 (10 題問答紀錄)</h3>
+                            ${answersHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const reportElement = document.getElementById('pdf-report-content');
+
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: `Scrum_團隊敏捷狀態評估報告_${today}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'] }
+            };
+
+            setTimeout(() => {
+                html2pdf().set(opt).from(reportElement).save().then(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnHTML;
+                }).catch((err) => {
+                    console.error('PDF generation error:', err);
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnHTML;
+                });
+            }, 400);
+        }
+
+        function closePDFModal() {
+            const modal = document.getElementById('pdf-report-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function updateRadarChart(scores) {
+            const ctx = document.getElementById('radar-chart').getContext('2d');
+            
+            if (radarChartInstance) {
+                radarChartInstance.destroy();
+            }
+
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        '模組一：The Sprint',
+                        '模組二：Planning',
+                        '模組三：Daily Scrum',
+                        '模組四：Review',
+                        '模組五：Retro'
+                    ],
+                    datasets: [{
+                        label: '模組得分',
+                        data: scores,
+                        backgroundColor: 'rgba(59, 130, 246, 0.35)',
+                        borderColor: '#60a5fa',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff',
+                        pointHoverBorderColor: '#3b82f6',
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    animation: false,
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                color: '#94a3b8',
+                                backdropColor: 'transparent',
+                                font: { size: 10 }
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.15)' },
+                            angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
+                            pointLabels: {
+                                color: '#e2e8f0',
+                                font: { size: 11, weight: 'bold' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
